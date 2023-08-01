@@ -1,0 +1,535 @@
+{
+	"info": {
+		"_postman_id": "5926adf4-1203-47ea-a48a-1ac43a99cc77",
+		"name": "NativeCloudApps_Grupo14_Entrega3_GCP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5647548"
+	},
+	"item": [
+		{
+			"name": "Sidecar API",
+			"item": [
+				{
+					"name": "SidecarAPI_Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{url}}/ping",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_CreacionUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"juanse\", \n    \"password\": \"1234\", \n    \"email\": \"juans.sanchezlopez@gmail.com\",\n    \"dni\": \"123456789\",\n    \"full_name\": \"Juan Sanchez\",\n    \"telefono\": \"31545678945\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/users/",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_VerifyManual",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"juans.sanchezlopez@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/users/manual-verification",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"manual-verification"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_GeneracionTokenUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"juancho\", \n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/users/auth",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_InfoUser",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/users/me",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_InfoBaseUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"juans.sanchezlopez@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/users/user_base",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"user_base"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_PublicPost",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"plannedStartDate\": \"03/20/2023\",\n    \"plannedEndDate\": \"03/28/2023\",\n    \"origin\": {\n       \"airportCode\": \"MIA\",\n       \"country\": \"COL\"\n    },\n    \"destiny\": {\n       \"airportCode\": \"BOG\",\n       \"country\": \"USA\"\n    },\n    \"bagCost\": 500\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/public/posts",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"public",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_PublicOffer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Mac\",\n    \"size\": \"LARGE\",\n    \"fragile\" : true,\n    \"offer\": 2000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/public/posts/5/offers",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"public",
+								"posts",
+								"5",
+								"offers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_SearchPost",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/public/posts/5",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"public",
+								"posts",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_PubSub Process",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"receiver\":\"juans.sanchezlopez@gmail.com\",\n    \"subject\":\"Esto es un Mensaje de prueba 456 \",\n    \"body_mail\":\"<h1>Prueba de Correo -> Native Cloud G14 - 456<h1> \"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/pubsubuser",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pubsubuser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Webhook Verify",
+			"item": [
+				{
+					"name": "WebHookVerify_Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3006/ping",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3006",
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "WebHookVerify_response",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"titulo\":\"resultado\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/webhook",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Express Verify",
+			"item": [
+				{
+					"name": "ExpressVerify_Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3007/ping",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3007",
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddTask",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"RUV\":\"cXdlcnR5MTIzNDU2MDox\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/addTask",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"addTask"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Send Email",
+			"item": [
+				{
+					"name": "SendEmail_Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3008/ping",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3008",
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SendEmail_Mail",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"receiver\":\"juans.sanchezlopez@gmail.com\",\n    \"subject\":\"Esto es un Mensaje de prueba \",\n    \"body_mail\":\"<h1>Prueba de Correo -> Native Cloud G14 <h1>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/send_email",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"send_email"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Archive Email",
+			"item": [
+				{
+					"name": "ArchiveEmail_Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3009/ping",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3009",
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ArchiveEmail_Bucket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"receiver\":\"juans.sanchezlopez@gmail.com\",\n    \"subject\":\"Esto es un Mensaje de prueba \",\n    \"body_mail\":\"<h1>Prueba de Correo -> Native Cloud G14 <h1>\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/archive_email",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"archive_email"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3Nzk3MDk5MywianRpIjoiMGRiOGExYTMtNDgwMy00YzMxLWFiY2UtMDBhODMxMzRmOTkzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFuZHJlcyIsIm5iZiI6MTY3Nzk3MDk5MywiZXhwIjoxNjc3OTcyNzkzfQ.TWEPVUBeOMcHM9zzlOw-UKByiRdhgMekMy1qbTVR774",
+			"type": "string"
+		},
+		{
+			"key": "url",
+			"value": "34.160.224.53",
+			"type": "string"
+		}
+	]
+}

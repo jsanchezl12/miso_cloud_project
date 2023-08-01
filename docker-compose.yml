@@ -1,0 +1,253 @@
+version: '3'
+services:
+  
+  
+  users:
+    build: ./user-management
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://postgres:DreamTeam123*@bd_entrega2g14:5432/postgres
+    depends_on:
+      bd_entrega2g14:
+        condition: service_healthy
+    networks:
+      - appnet
+      - usernet
+
+  # bd_userm:
+  #   image: postgres
+  #   #platform: linux/arm64
+  #   volumes:
+  #     - pguserm:/var/lib/postgresql/data/
+  #   environment:
+  #     - POSTGRES_PASSWORD=DreamTeam123*
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_DB=postgres
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U postgres"]
+  #     interval: 2s
+  #     timeout: 5s
+  #     retries: 5
+  #   networks:
+  #     - usernet
+    
+  routes:
+    build: ./route-management
+    ports:
+      - "3002:3002"
+    environment:
+      DATABASE_URL: postgresql://postgres:DreamTeam123*@bd_entrega2g14:5432/postgres
+      USERS_PATH: users
+      ISLOCALG14: True
+    depends_on:
+      bd_entrega2g14:
+        condition: service_healthy
+    networks:
+      - appnet
+      - routenet
+  
+  # bd_routem:
+  #   image: postgres
+  #   #platform: linux/arm64
+  #   volumes:
+  #     - pgrouterm:/var/lib/postgresql/data/
+  #   environment:
+  #     POSTGRES_PASSWORD: DreamTeam123*
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: postgres
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U postgres"]
+  #     interval: 2s
+  #     timeout: 5s
+  #     retries: 5
+  #   networks:
+  #     - routenet
+  
+  offers:
+    build: ./offer-management
+    ports:
+      - "3003:3003"
+    environment:
+      DATABASE_URL: postgresql://postgres:DreamTeam123*@bd_entrega2g14:5432/postgres
+      USERS_PATH: users
+      ISLOCALG14: True
+    depends_on:
+      bd_entrega2g14:
+        condition: service_healthy
+    networks:
+      - appnet
+      - offernet
+
+  # bd_offerm:
+  #   image: postgres
+  #   #platform: linux/arm64
+  #   volumes:
+  #     - pgofferm:/var/lib/postgresql/data/
+  #   environment:
+  #     POSTGRES_PASSWORD: DreamTeam123*
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: postgres
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U postgres"]
+  #     interval: 2s
+  #     timeout: 5s
+  #     retries: 5
+  #   networks:
+  #     - offernet
+
+  posts:
+    build: ./post-management
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: postgresql://postgres:DreamTeam123*@bd_entrega2g14:5432/postgres
+      USERS_PATH: users
+      ISLOCALG14: True
+    depends_on:
+      bd_entrega2g14:
+        condition: service_healthy
+    networks:
+      - appnet
+      - postnet
+  
+  utility:
+    build: ./utility-management
+    ports:
+      - "3004:3004"
+    environment:
+      DATABASE_URL: postgresql://postgres:DreamTeam123*@bd_entrega2g14:5432/postgres
+      USERS_PATH: users
+      POSTS_PATH: posts
+      ROUTES_PATH: routes
+      OFFERS_PATH: offers
+      ISLOCALG14: True
+    depends_on:
+      bd_entrega2g14:
+        condition: service_healthy
+    networks:
+      - appnet
+      - utilitynet
+
+  sidecarapi:
+    build: ./sidecar-api
+    ports:
+      - "3005:3005"
+    environment:
+      UTILITY_PATH: utility
+      USERS_PATH: users
+      EMAIL_PATH: send-email
+      BUCKET_PATH: archive-email
+      TRUENATIVE_PATH: truenative
+      VERIFY_WEBHOOK_PATH: verify-webhook
+      VERIFY_EXPRESS_PATH: verify-express
+      SECRET_TOKEN: gcloudprojectg14
+    networks:
+      - appnet
+  
+  verify-webhook:
+    build: ./verify-webhook
+    ports:
+      - "3006:3006"
+    environment:
+      SECRET_TOKEN: gcloudprojectg14
+      USERS_PATH: users
+      SIDECARAPI_PATH: sidecarapi
+    depends_on:
+      - users
+    networks:
+      - appnet
+  
+  verify-express:
+    build: ./verify-express
+    ports:
+      - "3007:3007"
+    environment:
+      SECRET_TOKEN: gcloudprojectg14
+      TRUENATIVE_PATH: truenative
+      USERS_PATH: users
+      SIDECARAPI_PATH: sidecarapi
+    networks:
+      - appnet
+  
+  send-email:
+    build: ./send-email
+    ports:
+      - "3008:3008"
+    networks:
+      - appnet
+  
+  archive-email:
+    build: ./archive-email
+    ports:
+      - "3009:3009"
+    networks:
+      - appnet
+  
+  truenative:
+    image: ghcr.io/misw-4301-desarrollo-apps-en-la-nube/true-native:1.0.0
+    platform: linux/amd64
+    ports:
+      - "4000:4000"
+    environment:
+      EXPRESS_RATE: 0
+      SECRET_TOKEN: gcloudprojectg14 
+      BASIC_DELAY: 30
+    networks:
+      - appnet
+
+  # bd_postsm:
+  #   image: postgres
+  #   #platform: linux/arm64
+  #   volumes:
+  #     - pgpostm:/var/lib/postgresql/data/
+  #   environment:
+  #     POSTGRES_PASSWORD: DreamTeam123*
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: postgres
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U postgres"]
+  #     interval: 2s
+  #     timeout: 5s
+  #     retries: 5
+  #   networks:
+  #     - postnet
+  
+  bd_entrega2g14:
+    image: postgres
+    volumes:
+      - pgpospgentrega2g14:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_PASSWORD: DreamTeam123*
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5000:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    networks:
+      - appnet
+
+volumes:
+  # pguserm:
+  # pgrouterm:
+  # pgofferm:
+  # pgpostm:
+  pgpospgentrega2g14:
+
+networks:
+  appnet:
+    driver: bridge
+  usernet:
+    driver: bridge
+  routenet:
+    driver: bridge
+  offernet:
+    driver: bridge
+  postnet:
+    driver: bridge
+  utilitynet:
+    driver: bridge

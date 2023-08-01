@@ -1,0 +1,9 @@
+.coverage
+*.coverage
+.pytest_cache
+*.pytest_cache
+venv/*
+__pycache__/*
+__pycache__
+*.db
+*.DS_Store

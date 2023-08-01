@@ -1,0 +1,83 @@
+team: Grupo 14-DreamTeamB
+board: https://github.com/orgs/MISW-4301-Desarrollo-Apps-en-la-Nube/projects/46
+url: http://34.160.224.53
+user-management:
+  folder: user-management
+  port: 3000
+  authors:
+    - a.cardenasj@uniandes.edu.co
+    - jd.portilla@uniandes.edu.co
+    - js.sanchezl12@uniandes.edu.co
+    - v.yirsa@uniandes.edu.co
+post-management:
+  folder: post-management
+  port: 3001
+  authors:
+    - a.cardenasj@uniandes.edu.co
+    - jd.portilla@uniandes.edu.co
+    - js.sanchezl12@uniandes.edu.co
+    - v.yirsa@uniandes.edu.co
+offer-management:
+  folder: offer-management
+  port: 3003
+  authors:
+    - a.cardenasj@uniandes.edu.co
+    - jd.portilla@uniandes.edu.co
+    - js.sanchezl12@uniandes.edu.co
+    - v.yirsa@uniandes.edu.co
+route-management:
+  folder: route-management
+  port: 3002
+  authors:
+    - a.cardenasj@uniandes.edu.co
+    - jd.portilla@uniandes.edu.co
+    - js.sanchezl12@uniandes.edu.co
+    - v.yirsa@uniandes.edu.co
+utility-management:
+  folder: utility-management
+  port: 3004
+  authors:
+    - a.cardenasj@uniandes.edu.co
+    - jd.portilla@uniandes.edu.co
+    - js.sanchezl12@uniandes.edu.co
+    - v.yirsa@uniandes.edu.co
+sidecar-api:
+  folder: sidecar-api
+  port: 3005
+  authors:
+    - a.cardenasj@uniandes.edu.co
+    - jd.portilla@uniandes.edu.co
+    - js.sanchezl12@uniandes.edu.co
+    - v.yirsa@uniandes.edu.co
+verify-webhook:
+  folder: verify-webhook
+  port: 3006
+  authors:
+    - a.cardenasj@uniandes.edu.co
+    - jd.portilla@uniandes.edu.co
+    - js.sanchezl12@uniandes.edu.co
+    - v.yirsa@uniandes.edu.co
+verify-express:
+  folder: verify-express
+  port: 3007
+  authors:
+    - a.cardenasj@uniandes.edu.co
+    - jd.portilla@uniandes.edu.co
+    - js.sanchezl12@uniandes.edu.co
+    - v.yirsa@uniandes.edu.co
+send-email:
+  folder: send-email
+  port: 3008
+  authors:
+    - a.cardenasj@uniandes.edu.co
+    - jd.portilla@uniandes.edu.co
+    - js.sanchezl12@uniandes.edu.co
+    - v.yirsa@uniandes.edu.co
+archive-email:
+  folder: archive-email
+  port: 3009
+  authors:
+    - a.cardenasj@uniandes.edu.co
+    - jd.portilla@uniandes.edu.co
+    - js.sanchezl12@uniandes.edu.co
+    - v.yirsa@uniandes.edu.co

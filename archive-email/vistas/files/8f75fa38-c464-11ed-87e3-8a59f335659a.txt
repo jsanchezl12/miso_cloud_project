@@ -1,0 +1,1 @@
+{'receiver': 'juans.sanchezlopez@gmail.com', 'subject': 'Esto es un Mensaje de prueba ', 'body_mail': '<h1>Prueba de Correo -> Native Cloud G14 <h1> '}

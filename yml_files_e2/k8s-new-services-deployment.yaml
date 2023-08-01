@@ -1,0 +1,146 @@
+###################################
+# utility-management
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: utility
+  labels:
+    app: utility
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: utility
+
+  template:
+    metadata:
+      labels:
+        app: utility
+    spec:
+      containers:
+        - name: utility
+          image: us-central1-docker.pkg.dev/gcloudprojectg14e2/entrega2-g14/utility:2.0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          env:
+            - name: "DATABASE_URL"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: uri
+            - name: "USERS_PATH"
+              value: servicio-users
+            - name: "POSTS_PATH"
+              value: servicio-posts
+            - name: "ROUTES_PATH"
+              value: servicio-routes
+            - name: "OFFERS_PATH"
+              value: servicio-offers
+          ports:
+            - containerPort: 3004
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: utility-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3004
+    type: HTTP
+    requestPath: /public/ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-utility
+  annotations:
+    cloud.google.com/backend-config: '{"default": "utility-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: utility
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3004
+      nodePort: 31014
+---
+###################################
+# sidecar-api
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidecarapi
+  labels:
+    app: sidecarapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sidecarapi
+
+  template:
+    metadata:
+      labels:
+        app: sidecarapi
+    spec:
+      containers:
+        - name: sidecarapi
+          image: us-central1-docker.pkg.dev/gcloudprojectg14e2/entrega2-g14/sidecarapi:2.0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          env:
+            - name: "DATABASE_URL"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: uri
+            - name: "UTILITY_PATH"
+              value: servicio-utility
+            - name: "USERS_PATH"
+              value: servicio-users
+          ports:
+            - containerPort: 3005
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: sidecarapi-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3005
+    type: HTTP
+    requestPath: /ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-sidecarapi
+  annotations:
+    cloud.google.com/backend-config: '{"default": "sidecarapi-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: sidecarapi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3005
+      nodePort: 31015
+---

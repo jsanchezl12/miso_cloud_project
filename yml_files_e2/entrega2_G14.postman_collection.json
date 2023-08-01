@@ -1,0 +1,971 @@
+{
+	"info": {
+		"_postman_id": "04afdb69-af22-40ca-8d8a-f226f1f916dc",
+		"name": "NativeCloudApps_Grupo14_Entrega2_GCP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5647548"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Usuario_Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{url}}/users/ping",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuario_Creacion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"juancho\", \n    \"password\": \"1234\", \n    \"email\": \"jssanchezl12@uniandes.edu.co\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/users/",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuario_GeneracionToken",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"juanse\", \n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/users/auth",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuario_Info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/users/me",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Routes",
+			"item": [
+				{
+					"name": "Routes_Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{url}}/routes/ping",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"routes",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Routes_Creacion",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sourceAirportCode\": \"LAX\",\r\n    \"sourceCountry\": \"USA\",\r\n    \"destinyAirportCode\": \"BOG\",\r\n    \"destinyCountry\": \"CO\",\r\n    \"bagCost\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/routes/",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"routes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Routes_Info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/routes/2",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"routes",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Routes_Search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/routes?from=LAX&to=BOG&when=2023-02-20",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"routes"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "LAX"
+								},
+								{
+									"key": "to",
+									"value": "BOG"
+								},
+								{
+									"key": "when",
+									"value": "2023-02-20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Routes_Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sourceAirportCode\": \"LAXX\",\n    \"sourceCountry\": \"USA\",\n    \"destinyAirportCode\": \"BOG\",\n    \"destinyCountry\": \"CO\",\n    \"bagCost\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/routes/1",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"routes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Routes_Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/routes/1",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"routes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Offers",
+			"item": [
+				{
+					"name": "Offers_Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{url}}/offers/ping",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"offers",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Offers_Creacion",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"postId\": 5,\r\n    \"description\": \"una torta de jamon\",\r\n    \"size\": \"SMALL\",\r\n    \"fragile\" : false,\r\n    \"offer\": 15\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/offers/",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"offers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Offers_Info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/offers/2",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"offers",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Offers_Search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/offers?post=2&filter=me",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"offers"
+							],
+							"query": [
+								{
+									"key": "post",
+									"value": "2"
+								},
+								{
+									"key": "filter",
+									"value": "me"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Offers_Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"postId\": 5,\r\n    \"description\": \"una torta de jamon\",\r\n    \"size\": \"SMALL\",\r\n    \"fragile\" : false,\r\n    \"offer\": 16\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/offers/1",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"offers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Offers_Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/offers/1",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"offers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Posts_Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{url}}/posts/ping",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Posts_Creacion",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"routeId\": 1,\r\n    \"plannedStartDate\": \"2023-02-12\",\r\n    \"plannedEndDate\": \"2023-02-27\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/posts/",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Posts_Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"routeId\": 1,\r\n    \"plannedStartDate\": \"2023-02-13\",\r\n    \"plannedEndDate\": \"2023-02-27\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/posts/2",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Posts_Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/posts/1",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Posts_Info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/posts/4",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Posts_Search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/posts?when=2023-03-20&route=2&filter=me",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"posts"
+							],
+							"query": [
+								{
+									"key": "when",
+									"value": "2023-03-20"
+								},
+								{
+									"key": "route",
+									"value": "2"
+								},
+								{
+									"key": "filter",
+									"value": "me"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Utility",
+			"item": [
+				{
+					"name": "Utility_Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{url}}/public/ping",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"public",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Utility_PublicPost",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"plannedStartDate\": \"03/20/2023\",\n    \"plannedEndDate\": \"03/27/2023\",\n    \"origin\": {\n       \"airportCode\": \"LAX\",\n       \"country\": \"COL\"\n    },\n    \"destiny\": {\n       \"airportCode\": \"BOG\",\n       \"country\": \"USA\"\n    },\n    \"bagCost\": 200\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/public/posts",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"public",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Utility_PublicOffer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"iPad\",\n    \"size\": \"MEDIUM\",\n    \"fragile\" : true,\n    \"offer\": 900\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/public/posts/1/offers",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"public",
+								"posts",
+								"1",
+								"offers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Utility_SearchPost",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/public/posts/2",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"public",
+								"posts",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sidecar API",
+			"item": [
+				{
+					"name": "SidecarAPI_Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{url}}/ping",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_CreacionUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"alex\", \n    \"password\": \"1234\", \n    \"email\": \"alex@uniandes.edu.co\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/users/",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_GeneracionTokenUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"alex\", \n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/users/auth",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_InfoUser",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/users/me",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_PublicPost",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"plannedStartDate\": \"03/20/2023\",\n    \"plannedEndDate\": \"03/28/2023\",\n    \"origin\": {\n       \"airportCode\": \"LOX\",\n       \"country\": \"COL\"\n    },\n    \"destiny\": {\n       \"airportCode\": \"BOG\",\n       \"country\": \"USA\"\n    },\n    \"bagCost\": 300\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/public/posts",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"public",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_PublicOffer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"iPad\",\n    \"size\": \"MEDIUM\",\n    \"fragile\" : true,\n    \"offer\": 900\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{url}}/public/posts/4/offers",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"public",
+								"posts",
+								"4",
+								"offers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SidecarAPI_SearchPost",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{url}}/public/posts/4",
+							"protocol": "http",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"public",
+								"posts",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

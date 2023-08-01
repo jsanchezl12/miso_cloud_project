@@ -1,0 +1,694 @@
+###################################
+# user-management
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users
+  labels:
+    app: users
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+        - name: users
+          image: us-central1-docker.pkg.dev/gcloudprojectg14e2/entrega3-g14/users:6.0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          env:
+            - name: "DATABASE_URL"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: uri
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: users-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3000
+    type: HTTP
+    requestPath: /users/ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-users
+  annotations:
+    cloud.google.com/backend-config: '{"default": "users-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: users
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+      nodePort: 31010
+---
+###################################
+# post-management
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posts
+  labels:
+    app: posts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: posts
+
+  template:
+    metadata:
+      labels:
+        app: posts
+    spec:
+      containers:
+        - name: posts
+          image: us-central1-docker.pkg.dev/gcloudprojectg14e2/entrega3-g14/posts:5.0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          env:
+            - name: "DATABASE_URL"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: uri
+            - name: "USERS_PATH"
+              value: servicio-users
+          ports:
+            - containerPort: 3001
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: posts-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3001
+    type: HTTP
+    requestPath: /posts/ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-posts
+  annotations:
+    cloud.google.com/backend-config: '{"default": "posts-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: posts
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3001
+      nodePort: 31011
+---
+###################################
+# route-management
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: routes
+  labels:
+    app: routes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: routes
+
+  template:
+    metadata:
+      labels:
+        app: routes
+    spec:
+      containers:
+        - name: routes
+          image: us-central1-docker.pkg.dev/gcloudprojectg14e2/entrega3-g14/routes:5.0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          env:
+            - name: "DATABASE_URL"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: uri
+            - name: "USERS_PATH"
+              value: servicio-users
+          ports:
+            - containerPort: 3002
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: routes-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3002
+    type: HTTP
+    requestPath: /routes/ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-routes
+  annotations:
+    cloud.google.com/backend-config: '{"default": "routes-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: routes
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3002
+      nodePort: 31012
+---
+###################################
+# offer-management
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: offers
+  labels:
+    app: offers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: offers
+
+  template:
+    metadata:
+      labels:
+        app: offers
+    spec:
+      containers:
+        - name: offers
+          image: us-central1-docker.pkg.dev/gcloudprojectg14e2/entrega3-g14/offers:5.0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          env:
+            - name: "DATABASE_URL"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: uri
+            - name: "USERS_PATH"
+              value: servicio-users
+          ports:
+            - containerPort: 3003
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: offers-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3003
+    type: HTTP
+    requestPath: /offers/ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-offers
+  annotations:
+    cloud.google.com/backend-config: '{"default": "offers-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: offers
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3003
+      nodePort: 31013
+---
+###################################
+# utility-management
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: utility
+  labels:
+    app: utility
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: utility
+
+  template:
+    metadata:
+      labels:
+        app: utility
+    spec:
+      containers:
+        - name: utility
+          image: us-central1-docker.pkg.dev/gcloudprojectg14e2/entrega3-g14/utility:5.0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          env:
+            - name: "DATABASE_URL"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: uri
+            - name: "USERS_PATH"
+              value: servicio-users
+            - name: "POSTS_PATH"
+              value: servicio-posts
+            - name: "ROUTES_PATH"
+              value: servicio-routes
+            - name: "OFFERS_PATH"
+              value: servicio-offers
+          ports:
+            - containerPort: 3004
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: utility-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3004
+    type: HTTP
+    requestPath: /public/ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-utility
+  annotations:
+    cloud.google.com/backend-config: '{"default": "utility-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: utility
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3004
+      nodePort: 31014
+---
+###################################
+# sidecar-api
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidecarapi
+  labels:
+    app: sidecarapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sidecarapi
+
+  template:
+    metadata:
+      labels:
+        app: sidecarapi
+    spec:
+      containers:
+        - name: sidecarapi
+          image: us-central1-docker.pkg.dev/gcloudprojectg14e2/entrega3-g14/sidecarapi:6.0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          env:
+            - name: "DATABASE_URL"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets 
+                  key: uri
+            - name: "UTILITY_PATH"
+              value: servicio-utility
+            - name: "USERS_PATH"
+              value: servicio-users
+            - name: "EMAIL_PATH"
+              value: servicio-sendemail
+            - name: "BUCKET_PATH"
+              value: servicio-archiveemail
+            - name: "TRUENATIVE_PATH"
+              value: servicio-truenative
+            - name: "VERIFY_WEBHOOK_PATH"
+              value: servicio-verifywebhook
+            - name: "VERIFY_EXPRESS_PATH"
+              value: servicio-verifyexpress
+            - name: "SECRET_TOKEN"
+              value: "gcloudprojectg14"
+          ports:
+            - containerPort: 3005
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: sidecarapi-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3005
+    type: HTTP
+    requestPath: /ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-sidecarapi
+  annotations:
+    cloud.google.com/backend-config: '{"default": "sidecarapi-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: sidecarapi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3005
+      nodePort: 31015
+---
+
+###################################
+# verify-webhook
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: verifywebhook
+  labels:
+    app: verifywebhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: verifywebhook
+
+  template:
+    metadata:
+      labels:
+        app: verifywebhook
+    spec:
+      containers:
+        - name: verifywebhook
+          image: us-central1-docker.pkg.dev/gcloudprojectg14e2/entrega3-g14/verifywebhook:5.0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          env:
+            - name: "SECRET_TOKEN"
+              value: "gcloudprojectg14"
+            - name: "USERS_PATH"
+              value: servicio-users
+            - name: "SIDECARAPI_PATH"
+              value: servicio-sidecarapi
+          ports:
+            - containerPort: 3006
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: verifywebhook-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3006
+    type: HTTP
+    requestPath: /ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-verifywebhook
+  annotations:
+    cloud.google.com/backend-config: '{"default": "verifywebhook-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: verifywebhook
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3006
+      nodePort: 31016
+---
+
+###################################
+# verify-express
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: verifyexpress
+  labels:
+    app: verifyexpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: verifyexpress
+
+  template:
+    metadata:
+      labels:
+        app: verifyexpress
+    spec:
+      containers:
+        - name: verifyexpress
+          image: us-central1-docker.pkg.dev/gcloudprojectg14e2/entrega3-g14/verifyexpress:5.0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          env:
+            - name: "SECRET_TOKEN"
+              value: "gcloudprojectg14"
+            - name: "USERS_PATH"
+              value: servicio-users
+            - name: "SIDECARAPI_PATH"
+              value: servicio-sidecarapi
+            - name: "TRUENATIVE_PATH"
+              value: servicio-truenative
+          ports:
+            - containerPort: 3007
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: verifyexpress-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3007
+    type: HTTP
+    requestPath: /ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-verifyexpress
+  annotations:
+    cloud.google.com/backend-config: '{"default": "verifyexpress-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: verifyexpress
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3007
+      nodePort: 31017
+---
+###################################
+# send-email
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sendemail
+  labels:
+    app: sendemail
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sendemail
+
+  template:
+    metadata:
+      labels:
+        app: sendemail
+    spec:
+      containers:
+        - name: sendemail
+          image: us-central1-docker.pkg.dev/gcloudprojectg14e2/entrega3-g14/sendemail:5.0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3008
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: sendemail-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3008
+    type: HTTP
+    requestPath: /ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-sendemail
+  annotations:
+    cloud.google.com/backend-config: '{"default": "sendemail-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: sendemail
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3008
+      nodePort: 31018
+---
+###################################
+# archive-email
+###################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archiveemail
+  labels:
+    app: archiveemail
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: archiveemail
+
+  template:
+    metadata:
+      labels:
+        app: archiveemail
+    spec:
+      containers:
+        - name: archiveemail
+          image: us-central1-docker.pkg.dev/gcloudprojectg14e2/entrega3-g14/archiveemail:5.0
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 3009
+          imagePullPolicy: Always
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: archiveemail-config
+spec:
+  healthCheck:
+    checkIntervalSec: 30
+    port: 3009
+    type: HTTP
+    requestPath: /ping
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-archiveemail
+  annotations:
+    cloud.google.com/backend-config: '{"default": "archiveemail-config"}'
+spec:
+  type: NodePort
+  selector:
+    app: archiveemail
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3009
+      nodePort: 31019
+---
